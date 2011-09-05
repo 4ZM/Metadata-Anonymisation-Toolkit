@@ -307,7 +307,7 @@ data loss, but clean more efficiently'))
         store = gtk.ListStore(str, str)
 
         # append filename - mimetype to the store
-        [store.append([item, 'bleh']) for item in filelist]#FIXME
+        [store.append([item, 'unknown']) for item in filelist]#FIXME
 
         treeview = gtk.TreeView(store)
         vbox.pack_start(treeview, True, True, 0)
