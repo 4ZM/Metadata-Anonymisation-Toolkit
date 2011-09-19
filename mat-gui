@@ -12,6 +12,7 @@ import gettext
 import locale
 import logging
 import os
+import mimetypes
 import xml.sax
 
 from mat import mat
@@ -277,7 +278,8 @@ data loss, but clean more efficiently'))
                     not_supported.append(item)
             yield True
 
-        if len(not_supported) > 0:
+        #self.popup_non_supported(not_supported)
+        if len(not_supported):
             self.popup_non_supported(not_supported)
 
         yield False
@@ -307,7 +309,14 @@ data loss, but clean more efficiently'))
         store = gtk.ListStore(str, str)
 
         # append filename - mimetype to the store
-        [store.append([item, 'unknown']) for item in filelist]#FIXME
+
+        #FIXME : I'm ugly
+        for item in filelist:
+            mime = mimetypes.guess_type(item)[0]
+            if mime:
+                store.append([item, mime])
+            else:
+                store.append([item, 'unknown'])
 
         treeview = gtk.TreeView(store)
         vbox.pack_start(treeview, True, True, 0)
